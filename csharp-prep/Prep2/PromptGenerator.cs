@@ -1,4 +1,6 @@
-public class Entry
+using System.ComponentModel.DataAnnotations;
+
+public class PromptGenerator
 {
     public string _date;
     public string _promptText;
@@ -6,6 +8,6 @@ public class Entry
 
     public void Display()
     {
-
+        return;  
     }
 }
