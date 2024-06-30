@@ -1,52 +1,44 @@
 using System;
-namespace JournalApp
+
+namespace JournalProgram
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // Create a new journal instance
             Journal journal = new Journal();
-
             while (true)
             {
-                // Display the menu options
-                Console.WriteLine("Menu:");
+                Console.WriteLine("Journal Menu:");
                 Console.WriteLine("1. Write a new entry");
                 Console.WriteLine("2. Display the journal");
                 Console.WriteLine("3. Save the journal to a file");
                 Console.WriteLine("4. Load the journal from a file");
-                Console.WriteLine("5. Quit");
-                Console.Write("Select an option: ");
-                string option = Console.ReadLine();
+                Console.WriteLine("5. Exit");
+                Console.Write("Choose an option: ");
+                string choice = Console.ReadLine();
 
-                // Handle the menu selection
-                switch (option)
+                switch (choice)
                 {
                     case "1":
-                        journal.AddEntry();
+                        journal.WriteNewEntry();
                         break;
                     case "2":
-                        journal.Display();
+                        journal.DisplayJournal();
                         break;
                     case "3":
-                        Console.Write("Enter filename to save: ");
-                        string saveFilename = Console.ReadLine();
-                        journal.Save(saveFilename);
+                        journal.SaveJournalToFile();
                         break;
                     case "4":
-                        Console.Write("Enter filename to load: ");
-                        string loadFilename = Console.ReadLine();
-                        journal.Load(loadFilename);
+                        journal.LoadJournalFromFile();
                         break;
                     case "5":
                         return;
                     default:
-                        Console.WriteLine("Invalid option. Please try again.");
+                        Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
             }
         }
     }
 }
-

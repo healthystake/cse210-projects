@@ -1,25 +1,24 @@
 using System;
 
-namespace JournalApp
+namespace JournalProgram
 {
-    // Represents a single journal entry
+    // Class representing a single journal entry
     public class Entry
     {
-        // The prompt given for the entry
         public string Prompt { get; set; }
-
-        // The user's response to the prompt
         public string Response { get; set; }
-
-        // The date when the entry was made
         public string Date { get; set; }
 
-        // Displays the entry in a formatted manner
-        public void Display()
+        public Entry(string prompt, string response)
         {
-            Console.WriteLine($"{Date} - {Prompt}");
-            Console.WriteLine(Response);
-            Console.WriteLine();
+            Prompt = prompt;
+            Response = response;
+            Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        public override string ToString()
+        {
+            return $"{Date} - {Prompt}\n{Response}\n";
         }
     }
 }

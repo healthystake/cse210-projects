@@ -1,70 +1,65 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace JournalApp
+namespace JournalProgram
 {
-    // Manages a collection of journal entries
+    // Class representing the journal which holds multiple entries
     public class Journal
     {
-        // List of journal entries
-        public List<Entry> Entries { get; set; } = new List<Entry>();
+        private List<Entry> entries = new List<Entry>();
+        private PromptGenerator promptGenerator = new PromptGenerator();
 
-        // Instance of the prompt generator
-        private PromptGenerator _promptGenerator = new PromptGenerator();
-
-        // Adds a new entry to the journal
-        public void AddEntry()
+        public void WriteNewEntry()
         {
-            // Get a random prompt and display it
-            string prompt = _promptGenerator.GetRandomPrompt();
+            string prompt = promptGenerator.GetRandomPrompt();
             Console.WriteLine(prompt);
-
-            // Read user's response
             string response = Console.ReadLine();
-
-            // Create a new entry and add it to the list
-            Entries.Add(new Entry { Prompt = prompt, Response = response, Date = DateTime.Now.ToString("yyyy-MM-dd") });
+            entries.Add(new Entry(prompt, response));
         }
 
-        // Displays all entries in the journal
-        public void Display()
+        public void DisplayJournal()
         {
-            foreach (var entry in Entries)
+            foreach (var entry in entries)
             {
-                entry.Display();
+                Console.WriteLine(entry);
             }
         }
 
-        // Saves the journal to a file
-        public void Save(string filename)
+        public void SaveJournalToFile()
         {
+            Console.Write("Enter filename to save journal: ");
+            string filename = Console.ReadLine();
             using (StreamWriter writer = new StreamWriter(filename))
             {
-                foreach (var entry in Entries)
+                foreach (var entry in entries)
                 {
                     writer.WriteLine($"{entry.Date}~|~{entry.Prompt}~|~{entry.Response}");
                 }
             }
+            Console.WriteLine("Journal saved successfully.");
         }
 
-        // Loads the journal from a file
-        public void Load(string filename)
+        public void LoadJournalFromFile()
         {
+            Console.Write("Enter filename to load journal: ");
+            string filename = Console.ReadLine();
             if (File.Exists(filename))
             {
-                Entries.Clear();
+                entries.Clear();
                 using (StreamReader reader = new StreamReader(filename))
                 {
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
-                        string[] parts = line.Split(new string[] { "~|~" }, StringSplitOptions.None);
+                        var parts = line.Split(new[] { "~|~" }, StringSplitOptions.None);
                         if (parts.Length == 3)
                         {
-                            Entries.Add(new Entry { Date = parts[0], Prompt = parts[1], Response = parts[2] });
+                            entries.Add(new Entry(parts[1], parts[2]) { Date = parts[0] });
                         }
                     }
                 }
+                Console.WriteLine("Journal loaded successfully.");
             }
             else
             {
